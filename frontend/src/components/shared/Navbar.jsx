@@ -11,21 +11,18 @@ import { LogOut, User2 } from 'lucide-react'
 function Navbar() {
     const user = false;
     return (
-        <div className='bg-white'>
+        <div className='bg-white border border-gray-200 shadow-lg py-2'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-10'>
                 <div>
                     <h1 className='text-2xl font-bold'>
-                        Job<span className='text-blue-500'>Portal</span>
+                        Job<span className='text-blue-500'>Hub</span>
                     </h1>
                 </div>
                 <div className='flex items-center gap-12'>
                     <ul className='flex font-medium items-center gap-5'>
-                        {/* <li><Link to="/">Home</Link></li>
-                <li><Link to="/">Job</Link></li>
-                <li><Link to="/">Browse</Link></li> */}
-                        <li>Home</li>
-                        <li>Job</li>
-                        <li>Browse</li>
+                        <li><Link to="/">Home</Link></li>
+                <li><Link to="/jobs">Jobs</Link></li>
+                <li><Link to="/browse">Browse</Link></li>
                     </ul>
                     {
                         !user ? (
@@ -34,7 +31,7 @@ function Navbar() {
                                     <Button variant="outline">Login</Button>
                                 </Link>
                                 <Link to='/signup'>
-                                    <Button className='bg-emerald-300 hover:bg-emerald-500 text-black'>Signup</Button>
+                                    <Button className='bg-emerald-300 hover:bg-emerald-500 text-black hover:text-white'>Signup</Button>
                                 </Link>
                             </div>
                         ) : (<Popover >
