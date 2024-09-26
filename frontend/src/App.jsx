@@ -4,8 +4,8 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Jobs from './pages/Jobs';
 import Browse from './pages/Browse';
-
-
+import Profile from './pages/Profile';
+import JobDescription from './pages/JobDescription'
 function App() {
   return (
     <Router>
@@ -15,6 +15,10 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/jobs' element={<Jobs />} />
         <Route path='/browse' element={<Browse />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/jobs/description/:id' element={<JobDescription />} />
+        <Route path='/browse/description/:id' element={<JobDescription />} />
+
       </Routes>
     </Router>
   )

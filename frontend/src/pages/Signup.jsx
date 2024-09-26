@@ -114,15 +114,15 @@ function Signup() {
               </div>
             </RadioGroup>
           </div>
-          <div className="grid w-full max-w-sm items-center gap-1.5">
+          <div className="grid w-full items-center gap-1.5">
             <Label >Profile Photo</Label>
-            <Input className='cursor-pointer' onChange={changeFileHandler} accept='image/*' type="file" />
+            <Input className='cursor-pointer ' onChange={changeFileHandler} accept='image/*' type="file" />
           </div>
           {
-            loading ? <Button className='bg-blue-300 text-black w-full hover:bg-blue-500'>
+            loading ? <Button className='bg-blue-300 text-black w-full hover:bg-blue-500 mt-2'>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />Loading
               </Button> :
-              <Button className='bg-blue-300 text-black w-full hover:bg-blue-500  hover:text-white mb-2'>
+              <Button className='bg-blue-300 text-black w-full hover:bg-blue-500 mt-2  hover:text-white mb-2'>
                Signup
               </Button>
           }
