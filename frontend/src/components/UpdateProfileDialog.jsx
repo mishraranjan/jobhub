@@ -19,53 +19,65 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         email: user?.email || "",
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
-        skills: user?.profile?.skills?.map(skill => skill) || "",
-        file: user?.profile?.resume || ""
+        skills: user?.profile?.skills?.join(", ") || "", // Update skills to be a comma-separated string
+        file: null, // Initialize to null
+        profilePhoto: null // New state for profile photo
     });
+
     const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
-    }
+    };
 
     const fileChangeHandler = (e) => {
         const file = e.target.files?.[0];
-        setInput({ ...input, file })
-    }
+        setInput({ ...input, file });
+    };
 
-    const submitHandler = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append("fullname", input.fullname);
-        formData.append("email", input.email);
-        formData.append("phoneNumber", input.phoneNumber);
-        formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
-        if (input.file) {
-            formData.append("file", input.file);
-        }
-        try {
-            setLoading(true);
-            const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                withCredentials: true
-            });
-            if (res.data.success) {
-                dispatch(setUser(res.data.user));
-                toast.success(res.data.message);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        } finally{
-            setLoading(false);
-        }
-        setOpen(false);
-        console.log(input);
-    }
+    const profilePhotoChangeHandler = (e) => {
+        const profilePhoto = e.target.files?.[0];
+        setInput({ ...input, profilePhoto });
+    };
 
+   // UpdateProfileDialog.js (Frontend Component)
+const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("fullname", input.fullname);
+    formData.append("email", input.email);
+    formData.append("phoneNumber", input.phoneNumber);
+    formData.append("bio", input.bio);
+    formData.append("skills", input.skills);
+    
+    if (input.file) {
+        formData.append("file", input.file); // For resume
+    }
+    
+    if (input.profilePhoto) {
+        formData.append("profilePhoto", input.profilePhoto); // For profile photo
+    }
+    
+    try {
+        setLoading(true);
+        const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
+        });
+        if (res.data.success) {
+            dispatch(setUser(res.data.user));
+            toast.success(res.data.message);
+        }
+    } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message);
+    } finally {
+        setLoading(false);
+    }
+    setOpen(false);
+}
 
 
     return (
@@ -78,10 +90,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                     <form onSubmit={submitHandler}>
                         <div className='grid gap-4 py-4'>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="name" className="text-right">Name</Label>
+                                <Label htmlFor="fullname" className="text-right">Name</Label>
                                 <Input
-                                    id="name"
-                                    name="name"
+                                    id="fullname"
+                                    name="fullname"
                                     type="text"
                                     value={input.fullname}
                                     onChange={changeEventHandler}
@@ -100,10 +112,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 />
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="number" className="text-right">Number</Label>
+                                <Label htmlFor="phoneNumber" className="text-right">Number</Label>
                                 <Input
-                                    id="number"
-                                    name="number"
+                                    id="phoneNumber"
+                                    name="phoneNumber"
                                     value={input.phoneNumber}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
@@ -140,6 +152,17 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className="col-span-3"
                                 />
                             </div>
+                            <div className='grid grid-cols-4 items-center gap-4'>
+                                <Label htmlFor="profilePhoto" className="text-right">Profile Photo</Label>
+                                <Input
+                                    id="profilePhoto"
+                                    name="profilePhoto"
+                                    type="file"
+                                    accept="image/*" // Accept any image file
+                                    onChange={profilePhotoChangeHandler}
+                                    className="col-span-3"
+                                />
+                            </div>
                         </div>
                         <DialogFooter>
                             {
@@ -150,7 +173,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 </DialogContent>
             </Dialog>
         </div>
-    )
-}
+    );
+};
 
-export default UpdateProfileDialog
+export default UpdateProfileDialog;

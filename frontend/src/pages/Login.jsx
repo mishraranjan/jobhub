@@ -104,7 +104,7 @@ function Login() {
           </div>
           {
             loading ? <Button className='bg-blue-300 text-black w-full hover:bg-blue-500'>
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />Loading
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' />Please wait
               </Button> :
               <Button className='bg-blue-300 text-black w-full hover:text-white hover:bg-blue-500 mb-2'>
                 Login
