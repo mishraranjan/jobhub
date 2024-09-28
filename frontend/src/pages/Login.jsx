@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
 import Navbar from '../components/shared/Navbar.jsx'
@@ -10,9 +10,10 @@ import { toast } from 'sonner'
 import axios from 'axios'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react';
 
 function Login() {
+  const {user} = useSelector(store=>store.auth);
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -50,6 +51,11 @@ function Login() {
     }
   }
 
+  useEffect(()=>{
+    if(user){
+      navigate('/')
+    }
+  })
   return (
     <div >
       <Navbar />

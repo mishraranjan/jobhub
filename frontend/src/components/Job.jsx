@@ -5,32 +5,43 @@ import { Avatar, AvatarImage } from './ui/avatar';
 import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
 
+// Function to calculate days since the job was posted
 const daysAgo = (date) => {
     const today = new Date();
     const postedDate = new Date(date);
     const differenceInTime = today - postedDate; // Difference in milliseconds
     const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); // Convert milliseconds to days
-    return differenceInDays;
+
+    if (differenceInDays < 1) {
+        return "Today";
+    }
+
+    return `${differenceInDays} day${differenceInDays !== 1 ? 's' : ''} ago`; // Returns formatted string for days
 };
 
 const Job = ({ job }) => {
     const navigate = useNavigate();
-    const daysSincePosted = daysAgo(job?.createdAt);
+    const postedTime = daysAgo(job?.createdAt);
 
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>
-                    {daysSincePosted} day{daysSincePosted !== 1 ? 's' : ''} ago
+                    {postedTime} {/* Shows either "Today" or "X days ago" */}
                 </p>
                 <Button variant='outline' className='rounded-full ' size='icon'><Bookmark /></Button>
             </div>
-            <div className="flex items-center gap-2 my-2">
-                <Button className='p-6' variant='outline' size='icon'>
-                    <Avatar>
-                        <AvatarImage src='https://img.freepik.com/premium-vector/minimalist-logo-design-any-corporate-brand-business-company_1253202-77511.jpg' />
+            <div className="flex items-center gap-4 my-4">
+                {/* Styled logo button with circular background */}
+                <div className='relative w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center'>
+                    <Avatar className='w-full h-full rounded-full overflow-hidden'>
+                        <AvatarImage
+                            src={job?.company?.logo || 'https://via.placeholder.com/150'} // Fallback in case no logo is provided
+                            alt={job?.company?.name}
+                            className="object-cover" // Ensure the logo covers the area without distortion
+                        />
                     </Avatar>
-                </Button>
+                </div>
                 <div>
                     <h1 className='font-medium text-lg'>{job?.company?.name}</h1>
                     <p className='text-sm text-gray-500'>India</p>
@@ -51,6 +62,6 @@ const Job = ({ job }) => {
             </div>
         </div>
     );
-}
+};
 
 export default Job;

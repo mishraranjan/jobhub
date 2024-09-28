@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
 import Navbar from '../components/shared/Navbar.jsx'
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loader2 } from 'lucide-react'
 
 function Signup() {
+  const {user} = useSelector(store=>store.auth);
   const [input, setInput] = useState({
     fullname: "",
     email: "",
@@ -65,6 +66,11 @@ function Signup() {
       dispatch(setLoading(false))
     }
   }
+  useEffect(()=>{
+    if(user){
+      navigate('/')
+    }
+  })
 
   return (
     <div>
