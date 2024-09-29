@@ -25,8 +25,6 @@ function App() {
         <Route path='/browse' element={<Browse />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/description/:id' element={<JobDescription />} />
-
-        
         <Route path='/admin/companies' element={<ProtectedRoute><Companies /></ProtectedRoute>} />
         <Route path='/admin/companies/create' element={<ProtectedRoute><CompanyCreate /></ProtectedRoute>} />
         <Route path='/admin/companies/:id' element={<ProtectedRoute><CompanySetup /></ProtectedRoute>} />
