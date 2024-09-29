@@ -1,0 +1,1 @@
+export const BACKEND_LINK ='https://jobhub-backend-0ppo.onrender.com'
